@@ -36,7 +36,7 @@ void display_update() {
   display.setCursor(2, 15);
   display.println(F("WiFi:"));
   display.setCursor(value_x, 15);
-  display.println(WiFi.isConnected() ? F("OK") : F("..."));
+  display.println(WiFi.status() == WL_CONNECTED ? F("OK") : F("..."));
 
   display.setCursor(2, 25);
   display.println(F("Printer:"));

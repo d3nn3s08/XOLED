@@ -10,7 +10,7 @@
 #ifdef ESP8266
   #define JSON_BUFFER_SIZE 10240
 #else
-  #define JSON_BUFFER_SIZE 24576
+  #define JSON_BUFFER_SIZE 49152
 #endif
 
 #ifdef ARDUINO_ARCH_ESP32C3

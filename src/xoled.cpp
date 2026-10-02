@@ -88,7 +88,7 @@ void XOLED::setup() {
 
 bool wifi_connecting = false;
 void wifi_loop() {
-  if (WiFi.isConnected()) {
+  if (WiFi.status() == WL_CONNECTED) {
     if (wifi_connecting) {
       wifi_connecting = false;
       services_setup_has_run = false;
@@ -123,7 +123,7 @@ void wifi_loop() {
 
 void services_loop() {
   if (services_setup_has_run) return;
-  if (!WiFi.isConnected()) return;
+  if (WiFi.status() != WL_CONNECTED) return;
 
   EVERY_N_SECONDS(10) {
     Serial.println("Failed to sync time");

@@ -29,7 +29,7 @@ bool connectWifi(const char *ssid, const char *password)
   //   delay(500);
   // }
 
-  return WiFi.isConnected();
+  return WiFi.status() == WL_CONNECTED;
 }
 
 void improv_setup()
