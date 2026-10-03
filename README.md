@@ -1,182 +1,61 @@
 # XOLED
 
-![XOLED Showcase](https://makerworld.bblmw.com/makerworld/model/US3a976399c751ad/design/2024-08-03_c5c91ad4dcc5d.jpeg?x-oss-process=image/resize,w_1920/format,webp)
+XOLED turns an ESP32 and an addressable LED strip into a live status display for Bambu Lab printers. It reads printer data via MQTT and shows connection state, print progress and current job status directly on the LEDs.
 
-XOLED is an ESP32-based firmware project for displaying Bambu Lab printer status and print progress on an addressable LED strip.
+![XOLED web interface](docs/images/dashboard.png)
 
-This repository is a fork of the original [michaelowens/XOLED](https://github.com/michaelowens/XOLED) project.
+## Highlights
 
-The original project was created to connect an ESP32 to Bambu Lab 3D printers via MQTT and visualize the current print progress using LEDs.
+- Modern local web interface for WiFi, printer and LED configuration
+- Bambu Lab MQTT connection, including H2-series print status handling
+- Live LED preview, adjustable LED count, brightness, power limit and colors
+- Visual boot animation, LED color test and printer connection test
+- OTA firmware update from the browser
+- Password-free `XOLED-Setup` access point for first-time setup
+- Web installer for ESP32 from Chrome or Edge
 
-This fork is being modernized and extended, with a focus on newer Bambu Lab printer generations such as the H2 series.
+## Install
 
-> This project is currently under active development.  
-> Some functionality may change while support for newer printers is added.
+Open the [XOLED Web Installer](https://d3nn3s08.github.io/XOLED/) in Chrome or Edge on a desktop computer. Connect the ESP32 with a USB data cable, click **Connect**, select its serial port, and follow the installation prompt.
 
-## Table of Contents
+After flashing, the ESP32 creates the open WiFi network **XOLED-Setup** when no WiFi has been configured. Connect to it and open [http://192.168.4.1](http://192.168.4.1) to complete setup.
 
-- [About this Fork](#about-this-fork)
-- [Features](#features)
-- [Current Status](#current-status)
-- [Planned Improvements](#planned-improvements)
-- [Installation](#installation)
-- [Usage](#usage)
-- [Hardware Requirements](#hardware-requirements)
-- [Enclosure](#enclosure)
-- [Original Project](#original-project)
-- [License](#license)
-- [Acknowledgements](#acknowledgements)
+> The setup access point is intentionally open so a fresh device can be configured without a password. Configure your own WiFi immediately afterwards.
 
-## About this Fork
+## Configure XOLED
 
-The original XOLED firmware works with existing Bambu Lab printer generations and uses MQTT data from the printer to visualize print progress.
+1. Open the device page after setup.
+2. Connect XOLED to your WiFi.
+3. Enter the printer IP address, serial number and access code.
+4. Use **Drucker testen** to verify the MQTT connection.
+5. Set LED count, brightness, power limit and the idle/printing colors.
+6. Save the settings. They remain stored on the ESP32.
 
-This fork started while testing XOLED with a Bambu Lab H2C.
+## Hardware
 
-The ESP32 successfully connects to the H2C via MQTT, but the original firmware does not currently interpret the H2C print state correctly.
+- ESP32 development board
+- WS2812B-compatible addressable LED strip
+- Stable 5 V power supply sized for the LED strip
+- USB data cable for the first installation
 
-The H2C itself provides valid status information such as:
+The default data pin is defined in [`src/const.h`](src/const.h).
 
-```json
-{
-  "gcode_state": "RUNNING",
-  "mc_percent": 21,
-  "percent": 21
-}
+## Development
+
+The project uses PlatformIO.
+
+```text
+platformio run
+platformio run -t upload
+platformio run -t uploadfs
 ```
 
-The goal of this fork is to improve compatibility with newer Bambu Lab printers while keeping the lightweight and simple idea of the original XOLED project.
+The web installer files and firmware manifest are located in [`docs/`](docs/). GitHub Pages publishes that directory.
 
-## Features
+## Project status
 
-Current and inherited functionality includes:
+XOLED is actively developed. The current firmware includes the new web interface, persistent settings, OTA updates and current Bambu Lab MQTT status parsing. Further printer-model validation is welcome.
 
-- Connects to Bambu Lab 3D printers using MQTT.
-- Displays print progress on an addressable LED strip.
-- ESP32-based standalone operation.
-- WiFi configuration.
-- Configurable LED count and brightness.
-- Experimental I2C display support.
-- 3D-printable enclosure.
-- Local web configuration.
+## Credits and license
 
-## Current Status
-
-### Working
-
-- ESP32 firmware
-- WiFi connection
-- MQTT connection to Bambu Lab printers
-- Addressable LED control
-- Original XOLED functionality
-- X1C operation
-
-### Under Investigation
-
-- Bambu Lab H2C support
-- H2-series MQTT payload handling
-- Print-state detection on newer printers
-- Large MQTT message handling
-- Print progress handling on H2-series printers
-
-## Planned Improvements
-
-Planned changes currently include:
-
-- Full Bambu Lab H2C support
-- Improved support for newer Bambu Lab printer generations
-- More robust MQTT parsing
-- Support for larger MQTT payloads
-- Improved printer-state handling
-- Better debug logging
-- Cleaner configuration handling
-- Improved LED status visualization
-- Improved error handling
-- OTA firmware updates
-- New web installer
-
-Additional features may be added as development progresses.
-
-## Installation
-
-The web installer is available through GitHub Pages after publishing the `docs` directory. Connect the ESP32 via USB, open the installer in Chrome or Edge, and select the device's serial port.
-
-For development, the firmware can still be built and flashed using PlatformIO.
-
-### Development Installation
-
-1. Clone this repository.
-2. Open the project using Visual Studio Code with PlatformIO.
-3. Connect the ESP32 using USB.
-4. Build and upload the firmware.
-5. Configure WiFi and printer connection settings.
-
-## Usage
-
-Once the firmware is installed and the ESP32 is powered on, it will:
-
-1. Connect to the configured WiFi network.
-2. Connect to the Bambu Lab printer using MQTT.
-3. Subscribe to printer status updates.
-4. Interpret the current printer state.
-5. Display printer status and print progress using the LED strip.
-
-## Hardware Requirements
-
-- ESP32 microcontroller
-- Addressable LED strip such as WS2812B
-- Suitable 5V power supply
-- 3D-printed enclosure
-
-Depending on the final hardware design, additional components may be supported later.
-
-## Enclosure
-
-The original 3D-printed enclosure was designed by [ortoPilot](https://twitch.tv/ortopilot).
-
-The enclosure can be downloaded from MakerWorld:
-
-https://makerworld.com/en/models/570064#profileId-489970
-
-The enclosure design belongs to its respective creator.
-
-## Original Project
-
-This project is based on:
-
-**XOLED by michaelowens**
-
-https://github.com/michaelowens/XOLED
-
-The original XOLED project provided the foundation for:
-
-- ESP32 firmware structure
-- Bambu Lab MQTT communication
-- LED progress visualization
-- Web configuration
-- Display support
-- Hardware enclosure integration
-
-This fork would not exist without the work done in the original project.
-
-## License
-
-This project remains licensed under the MIT License.
-
-See the [LICENSE](LICENSE) file for details.
-
-The original XOLED project is also licensed under the MIT License.
-
-## Acknowledgements
-
-Special thanks to:
-
-- **michaelowens** for creating the original XOLED project.
-- **ortoPilot** for designing the original 3D-printed enclosure.
-- **Bambu Lab** for their 3D printers.
-- **FastLED** for the FastLED library.
-- **knolleary** for the PubSubClient library.
-- **bblanchon** for the ArduinoJson library.
-- **Aircoookie** for the ESPAsyncWebServer library.
-- **jnthas** for the Improv WiFi Library.
-- **Adafruit** for the GFX and SSD1306 libraries.
+XOLED is a fork of [michaelowens/XOLED](https://github.com/michaelowens/XOLED). The enclosure design is by [ortoPilot](https://makerworld.com/en/models/570064#profileId-489970). This project is licensed under the [MIT License](LICENSE).
