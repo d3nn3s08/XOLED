@@ -99,11 +99,9 @@ Additional features may be added as development progresses.
 
 ## Installation
 
-The original XOLED web installer is built for the upstream firmware and should currently not be used for this fork.
+The web installer is available through GitHub Pages after publishing the `docs` directory. Connect the ESP32 via USB, open the installer in Chrome or Edge, and select the device's serial port.
 
-For now, this fork should be built and flashed using PlatformIO.
-
-A dedicated web installer is planned once the firmware reaches a stable state.
+For development, the firmware can still be built and flashed using PlatformIO.
 
 ### Development Installation
 

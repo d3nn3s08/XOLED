@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#071018">
+  <title>XOLED Web Installer</title>
+  <script type="module" src="https://unpkg.com/esp-web-tools@10/dist/web/install-button.js?module"></script>
+  <style>
+    :root{font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:#edf4f8;background:#071018}*{box-sizing:border-box}body{margin:0;min-height:100vh;background:radial-gradient(circle at 50% -10%,#18313c 0,#071018 55%);padding:32px 20px}.page{max-width:1080px;margin:auto}.top{display:flex;align-items:center;justify-content:space-between;margin-bottom:42px}.logo{font-size:2.25rem;font-weight:900;letter-spacing:-.12em}.logo b{color:#11dd72}.tag{color:#9baab7;font-size:.94rem}.hero,.steps,.notice{background:linear-gradient(145deg,#152633,#0d1822);border:1px solid #293b48;border-radius:16px;box-shadow:0 24px 60px #0005}.hero{text-align:center;padding:54px 24px 44px}.icon{width:76px;height:76px;margin:0 auto 18px;display:grid;place-items:center;border-radius:20px;background:#0d3025;color:#18ed7d;font-size:2.4rem;box-shadow:inset 0 0 0 1px #1e6b4b}h1{margin:0;font-size:clamp(2rem,6vw,3.6rem);letter-spacing:-.055em}h1 span{color:#19e878}.lead{max-width:580px;margin:16px auto 28px;color:#aebdc8;font-size:1.08rem;line-height:1.65}.install{display:inline-block;min-width:260px;--esp-tools-button-color:#08b957;--esp-tools-button-text-color:#fff}.hint{margin:18px 0 0;color:#8d9ba6;font-size:.84rem}.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:20px}.steps,.notice{padding:23px}.number{display:grid;place-items:center;width:32px;height:32px;border-radius:50%;background:#0d3527;color:#28ee82;font-weight:800;margin-bottom:13px}.steps h2,.notice h2{margin:0 0 7px;font-size:1.05rem}.steps p,.notice p{margin:0;color:#aab8c3;line-height:1.55;font-size:.92rem}.notice{margin-top:20px;display:flex;gap:15px;align-items:flex-start}.notice strong{color:#f6ce4b}.footer{text-align:center;color:#758692;font-size:.82rem;padding:26px 0 4px}.footer a{color:#28bcef;text-decoration:none}@media(max-width:680px){body{padding:22px 14px}.top{margin-bottom:28px}.tag{display:none}.hero{padding:38px 18px}.grid{grid-template-columns:1fr}.notice{display:block}.notice strong{display:block;margin-bottom:6px}}
+  </style>
+</head>
+<body>
+  <main class="page">
+    <header class="top"><div class="logo">XO<b>LED</b></div><div class="tag">LED-Controller für Bambu Lab</div></header>
+    <section class="hero">
+      <div class="icon">⚡</div>
+      <h1>XOLED <span>installieren</span></h1>
+      <p class="lead">Installiere die aktuelle XOLED-Firmware direkt über USB auf deinen ESP32. Anschließend richtest du WLAN, Drucker und LEDs in der Geräteoberfläche ein.</p>
+      <esp-web-install-button class="install" manifest="bins/manifest.json"></esp-web-install-button>
+      <p class="hint">Unterstützt Chrome und Edge auf Desktop-Computern.</p>
+    </section>
+    <section class="grid" aria-label="Installationsschritte">
+      <article class="steps"><div class="number">1</div><h2>ESP32 verbinden</h2><p>Verbinde deinen ESP32 mit einem USB-Datenkabel mit dem Computer.</p></article>
+      <article class="steps"><div class="number">2</div><h2>Port auswählen</h2><p>Klicke auf „Connect“ und wähle den passenden USB-Port deines ESP32 aus.</p></article>
+      <article class="steps"><div class="number">3</div><h2>Einrichten</h2><p>Nach dem Neustart verbindest du dich mit dem offenen WLAN <b>XOLED-Setup</b>.</p></article>
+    </section>
+    <aside class="notice"><strong>Hinweis</strong><p>Die Installation überschreibt die vorhandene XOLED-Firmware. Während des Flashens USB-Kabel und Browser geöffnet lassen.</p></aside>
+    <footer class="footer"><a href="https://github.com/d3nn3s08/XOLED">XOLED auf GitHub</a> · Installer powered by ESP Web Tools</footer>
+  </main>
+</body>
+</html>
