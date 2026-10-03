@@ -1,7 +1,7 @@
 #pragma once
 
 // Built in LED pin
-#define LED_BUILTIN 2
+#define STATUS_LED_PIN 2
 
 // Toggle screen button GPIO pin
 #define BUTTON_PIN 0
@@ -13,7 +13,7 @@
   #define JSON_BUFFER_SIZE 49152
 #endif
 
-#ifdef ARDUINO_ARCH_ESP32C3
+#ifdef CONFIG_IDF_TARGET_ESP32C3
   #define DATA_PIN 3
 #else // ESP32
   #define DATA_PIN 14

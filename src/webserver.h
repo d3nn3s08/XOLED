@@ -1,3 +1,2 @@
 #pragma once
-
-void webserver_setup();
+void webserver_begin(bool filesystem_ready);

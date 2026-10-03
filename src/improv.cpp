@@ -18,8 +18,8 @@ bool connectWifi(const char *ssid, const char *password)
 {
   Serial.println("WiFi Improv got credentials");
 
-  strncpy(config.wifi_ssid, ssid, sizeof(config.wifi_ssid) - 1);
-  strncpy(config.wifi_pass, password, sizeof(config.wifi_pass) - 1);
+  strlcpy(config.wifi_ssid, ssid, sizeof(config.wifi_ssid));
+  strlcpy(config.wifi_pass, password, sizeof(config.wifi_pass));
 
   // Shouldn't be necessary anymore as this is now handled in wifi_loop
   // size_t tries = 0;
