@@ -34,7 +34,7 @@ bool connectWifi(const char *ssid, const char *password)
 
 void improv_setup()
 {
-  improv_serial.setDeviceInfo(ImprovTypes::ChipFamily::CF_ESP32, "XOLED", "0.1.0", "XOLED", "http://{LOCAL_IPV4}");
+  improv_serial.setDeviceInfo(ImprovTypes::ChipFamily::CF_ESP32, "XOLED", XOLED_VERSION, "XOLED", "http://{LOCAL_IPV4}");
   improv_serial.onImprovError(onImprovWiFiErrorCb);
   improv_serial.onImprovConnected(onImprovWiFiConnectedCb);
   improv_serial.setCustomConnectWiFi(connectWifi); // Optional

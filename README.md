@@ -18,6 +18,8 @@ XOLED turns an ESP32 and an addressable LED strip into a live status display for
 
 ## Install
 
+Current release: [XOLED v3.0.5](https://github.com/d3nn3s08/XOLED/releases/tag/v3.0.5).
+
 Open the [XOLED Web Installer](https://d3nn3s08.github.io/XOLED/) in Chrome or Edge on a desktop computer. Connect the ESP32 with a USB data cable, click **Connect**, select its serial port, and follow the installation prompt.
 
 After flashing, the ESP32 creates the open WiFi network **XOLED-Setup** when no WiFi has been configured. Connect to it and open [http://192.168.4.1](http://192.168.4.1) to complete setup.
@@ -53,6 +55,8 @@ platformio run -t uploadfs
 ```
 
 The web installer files and firmware manifest are located in [`docs/`](docs/). GitHub Pages publishes that directory.
+
+To refresh the installer's firmware and WebUI images, follow [Update the web installer](docs/web-installer-update.md).
 
 ## Project status
 

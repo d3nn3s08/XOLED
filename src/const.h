@@ -1,5 +1,7 @@
 #pragma once
 
+#define XOLED_VERSION "3.0.5"
+
 // Built in LED pin
 #define STATUS_LED_PIN 2
 
