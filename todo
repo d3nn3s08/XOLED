@@ -1,6 +1,8 @@
-☐ Test if changing printer IP correctly reconnects mqtt
-☐ Reconnect wifi when changing through UI
-✔ Add led settings: led count & max milliwatts @done(24-06-11 16:46)
-✔ Ability to change colors for progress bar (background and foreground) @done(24-06-11 16:46)
-✔ Set defaults for config upon new installation @done(24-06-11 16:46)
-✔ Double check if docs folder gets all the correct files (firmware + spiffs) @done(24-06-11 16:46)
+☐ LED-Testmuster: Lauflicht, Farbtest und einzelne LED anwählen, um Verkabelung/LED-Reihenfolge schnell zu prüfen
+☐ rucker-Fehleranzeige: Rot blinken bei Fehler, Gelb bei Pause/Filamentwechsel, Blau bei Aufheizen
+☐ Druckfortschritt mit Restzeit: LEDs nicht nur nach Prozent, sondern auch mit kleinem „Restzeit“-Effekt darstellen
+☐ Mehrere LED-Profile: z. B. „Dezent“, „Hell“, „Nachtmodus“ und verschiedene Farben je Druckerstatus
+☐ WLAN-Setup verbessern: Nach erstmaliger Einrichtung das offene Setup-WLAN automatisch abschalten
+☐ Backup/Import der Einstellungen: Konfiguration als Datei sichern und auf einen neuen ESP32 übertragen
+☐ OTA direkt aus GitHub: Die Weboberfläche prüft Releases und installiert eine neue Firmware mit einem Klick
+☐ Fehlerprotokoll im Webinterface: Letzte WLAN-, MQTT- und Neustart-Ereignisse anzeigen. Das wäre für sporadische Probleme besonders hilfreich
