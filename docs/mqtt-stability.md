@@ -1,6 +1,28 @@
 # MQTT-/TLS-Stabilitaet: Implementierung und Pruefstand
 
-Stand: 04.10.2026
+Stand des urspruenglichen Stabilitaetstests: 04.10.2026
+
+## Parserkorrektur vom 07.11.2026
+
+`gcode_state` wird explizit mit `as<const char*>()` gelesen. Der bisherige Ausdruck
+`print["gcode_state"] | nullptr` lieferte durch die gewaehlte ArduinoJson-Ueberladung
+immer `nullptr`, selbst fuer `RUNNING`. Dadurch blieben erkannte Druckmeldungen
+wirkungslos; der Status blieb nach dem Reconnect unbekannt und die LEDs zeigten
+die Hintergrundfarbe.
+
+Die Restzeit wird aus dem ersten gueltigen Feld in dieser Reihenfolge gelesen:
+`remaining_time`, `mc_remaining_time`, `remain_time`. Alle drei sind Minutenwerte;
+73 Minuten ergeben 4380 Sekunden. Fehlende, negative, nicht ganzzahlige oder
+ueberlaufende Werte veraendern die bisherige Restzeit nicht. Null ist gueltig.
+Der JSON-Filter beruecksichtigt jetzt neun ausgewaehlte Felder; der 49-KB-Puffer
+bleibt unveraendert.
+
+`python -B -m unittest discover -s test` umfasst einen nativen Parser-Test mit der
+tatsaechlichen Callback-Funktion und den installierten ArduinoJson-Headern.
+Er benoetigt unter Windows MSVC, ansonsten wird dieser Test als uebersprungen
+gemeldet. Geprueft werden Statuswechsel, Teilmeldungen, Restzeit-Fallbacks,
+ungueltige Werte und eine synthetische gefilterte Payload mit ueber 30 KB.
+Der Hardware-Stabilitaetsnachweis weiter unten ist davon unabhaengig.
 
 ## Bestaetigte Fehler und wahrscheinlicher Absturzpfad
 
@@ -38,7 +60,8 @@ ebenfalls nicht abschliessend geklaert.
   und zu grosse Werte lassen den letzten Wert unveraendert.
 - Der 49152-Byte-MQTT-Puffer bleibt erhalten. Ein Allokationsfehler wird gemeldet
   und verhindert Connect mit einem fuer H2C zu kleinen Ersatzpuffer.
-- ArduinoJson filtert weiterhin ausschliesslich die sieben benoetigten Felder.
+- ArduinoJson filtert ausschliesslich die benoetigten Felder (seit der
+  Parserkorrektur neun einschliesslich der Restzeit-Aliase).
   Die Payload wird direkt geparst; der dauerhaft benoetigte Jobname wird kopiert.
 - Temporaere Heap-Diagnose: FreeHeap, MinFreeHeap und groesster freier 8-Bit-Block
   beim Start, vor Connect, nach Erfolg, Fehler, Abbruch, Rekonfiguration und

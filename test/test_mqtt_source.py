@@ -47,14 +47,15 @@ class MqttSourceSafety(unittest.TestCase):
         self.assertIn("(int32_t)(now - retry_at) < 0", SOURCE)
 
     def test_remaining_time_and_filtered_payload(self):
-        self.assertIn('if (print["remaining_time"].is<unsigned long>())', SOURCE)
+        self.assertIn('for (const char* key : {"remaining_time", "mc_remaining_time", "remain_time"})', SOURCE)
+        self.assertIn('if (!print[key].is<unsigned long>()) continue;', SOURCE)
         self.assertIn("minutes <= UINT32_MAX / 60UL", SOURCE)
         self.assertNotIn('(print["remaining_time"] | printer.remaining_seconds)', SOURCE)
         self.assertIn("deserializeJson(doc, payload, length, DeserializationOption::Filter(filter))", SOURCE)
         keys = re.search(r"for \(const char\* key : \{([^}]+)\}", SOURCE).group(1)
         self.assertEqual(set(re.findall(r'"([^"]+)"', keys)), {
             "gcode_state", "mc_percent", "percent", "layer_num",
-            "total_layer_num", "remaining_time", "subtask_name",
+            "total_layer_num", "remaining_time", "mc_remaining_time", "remain_time", "subtask_name",
         })
 
 

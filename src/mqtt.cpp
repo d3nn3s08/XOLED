@@ -49,7 +49,7 @@ PrinterState decode_state(const char* state) { if (!state) return PrinterState::
 
 void on_message(char*, byte* payload, unsigned int length) {
   JsonDocument filter;
-  for (const char* key : {"gcode_state", "mc_percent", "percent", "layer_num", "total_layer_num", "remaining_time", "subtask_name"}) filter["print"][key] = true;
+  for (const char* key : {"gcode_state", "mc_percent", "percent", "layer_num", "total_layer_num", "remaining_time", "mc_remaining_time", "remain_time", "subtask_name"}) filter["print"][key] = true;
   JsonDocument doc;
   // Parse directly from PubSubClient's buffer; copy retained strings before returning.
   if (deserializeJson(doc, payload, length, DeserializationOption::Filter(filter))) {
@@ -65,18 +65,21 @@ void on_message(char*, byte* payload, unsigned int length) {
     report_at = millis();
     Serial.printf("[MQTT] Druckerbericht empfangen, bytes=%u\n", length);
   }
-  const PrinterState next = decode_state(print["gcode_state"] | nullptr);
+  const PrinterState next = decode_state(print["gcode_state"].as<const char*>());
   if (next != PrinterState::Unknown) printer.state = next;
   int value = print["mc_percent"] | (print["percent"] | -1);
   if (value >= 0 && value <= 100) printer.progress = value;
   printer.layer = print["layer_num"] | printer.layer;
   printer.total_layers = print["total_layer_num"] | printer.total_layers;
-  if (print["remaining_time"].is<unsigned long>()) {
-    const unsigned long minutes = print["remaining_time"].as<unsigned long>();
-    if (minutes <= UINT32_MAX / 60UL) printer.remaining_seconds = minutes * 60UL;
+  for (const char* key : {"remaining_time", "mc_remaining_time", "remain_time"}) {
+    if (!print[key].is<unsigned long>()) continue;
+    const unsigned long minutes = print[key].as<unsigned long>();
+    if (minutes <= UINT32_MAX / 60UL) {
+      printer.remaining_seconds = minutes * 60UL;
+      break;
+    }
   }
   if (print["subtask_name"].is<const char*>()) printer.job_name = (const char*)print["subtask_name"];
-  if (printer.state == PrinterState::Disconnected && (printer.progress > 0 || printer.job_name.length())) printer.state = PrinterState::Printing;
 }
 }
 
@@ -150,6 +153,7 @@ void mqtt_loop() {
   snprintf(topic, sizeof(topic), "device/%s/report", active.serial);
   if (!client.subscribe(topic)) { failed_connection("subscribe failed"); return; }
   socket_active = true;
+  printer.state = PrinterState::Unknown;
   connected.store(true);
   retry_delay = kInitialRetry;
   Serial.println("MQTT verbunden");

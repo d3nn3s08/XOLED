@@ -10,6 +10,8 @@ XOLED turns an ESP32 and an addressable LED strip into a live status display for
 - Bambu Lab MQTT connection, including H2-series print status handling
 - Live LED preview, adjustable LED count, brightness, power limit and colors
 - Visual boot animation, LED color test and printer connection test
+- Synchronized whole-strip completion blinking in the configured printing color
+- After reconnects, printer state waits for a fresh MQTT status instead of using old progress
 - OTA firmware update from the browser
 - Password-free `XOLED-Setup` access point for first-time setup
 - Web installer for ESP32 from Chrome or Edge
